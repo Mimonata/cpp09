@@ -6,7 +6,7 @@
 #    By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/13 17:47:50 by spitul            #+#    #+#              #
-#    Updated: 2025/08/25 19:24:46 by spitul           ###   ########.fr        #
+#    Updated: 2025/11/13 19:10:07 by spitul           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = c++
 CPPFLAGS = -g -Wall -Wextra -Werror -std=c++98 -pedantic
 HEADERS = MutantStack.hpp 
 
-NAME = stack
+NAME = btc
 
 all: $(NAME)
 
