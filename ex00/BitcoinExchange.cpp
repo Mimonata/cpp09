@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 21:09:38 by spitul            #+#    #+#             */
-/*   Updated: 2025/11/15 08:03:58 by spitul           ###   ########.fr       */
+/*   Updated: 2025/11/17 06:33:38 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,21 @@ BitcoinExchange&	BitcoinExchange::operator=(const BitcoinExchange &rh)
 BitcoinExchange::~BitcoinExchange()
 {}
 
+void	BitcoinExchange::parseLine(std::string line, char delim)
+{
+	size_t	pos = line.find(delim);
+	if (pos == line.npos)
+	{
+		std::cout << "Error: invalid input => " << line;
+		return;
+	}
+	validateDate();
+	validateValue();
+}
+
 void	BitcoinExchange::loadRates()
 {
+	std::string	line;
 	std::ifstream	db("data.csv");
 	
 	if (!db.is_open())
@@ -39,8 +52,10 @@ void	BitcoinExchange::loadRates()
 		std::cout << GYL << "Error while opening file\n" << RST;
 		return ;
 	}
-	while (!db.eof())
+	while (std::getline(db, line))
 	{
-		std::string	line = getline()
+		if (line.empty())
+			continue;
+		parseLine(line);
 	}
 }
