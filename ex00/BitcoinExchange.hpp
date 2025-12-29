@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:05:59 by spitul            #+#    #+#             */
-/*   Updated: 2025/11/17 06:34:48 by spitul           ###   ########.fr       */
+/*   Updated: 2025/11/17 19:59:33 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ class BitcoinExchange
 		std::map<std::string, float>	rates;
 		void	loadRates();
 		void	parseLine(std::string line, char delim);
-		bool	validateDate();
-		bool	validateValue();
+		bool	validateDate(std::string &str);
+		bool	validateValue(std::string &str);
+		void	trim(std::string &str);
 		
 	public:
 		BitcoinExchange();

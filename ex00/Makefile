@@ -6,15 +6,15 @@
 #    By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/13 17:47:50 by spitul            #+#    #+#              #
-#    Updated: 2025/11/13 19:10:07 by spitul           ###   ########.fr        #
+#    Updated: 2025/12/29 20:54:42 by spitul           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.cpp 
+SRC = main.cpp BitcoinExchange.cpp
 OBJ = $(addprefix obj/, $(SRC:.cpp=.o))
 CC = c++
 CPPFLAGS = -g -Wall -Wextra -Werror -std=c++98 -pedantic
-HEADERS = MutantStack.hpp 
+HEADERS = BitcoinExchange.hpp 
 
 NAME = btc
 

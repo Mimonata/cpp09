@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 21:09:38 by spitul            #+#    #+#             */
-/*   Updated: 2025/11/17 06:33:38 by spitul           ###   ########.fr       */
+/*   Updated: 2025/12/29 22:49:36 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,53 @@ BitcoinExchange::BitcoinExchange()
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &rh)
 {
 	if (this != &rh)
-	
+		rates = rh.rates;
 }
 
 BitcoinExchange&	BitcoinExchange::operator=(const BitcoinExchange &rh)
-{}
+{
+	if (this != &rh)
+		rates = rh.rates;
+	return *this;
+}
 
 BitcoinExchange::~BitcoinExchange()
 {}
+
+void	BitcoinExchange::trim(std::string &str)
+{
+	std::string	ws = " \t\r\b";
+	std::string::iterator	it = str.begin();
+	std::string::reverse_iterator	rit=str.rbegin();
+	
+	for (it; it != str.end(); it++)
+	{
+		if (ws.find(*it) != std::string::npos)
+		{
+			str = str.substr(it - str.begin());
+			break;
+		}
+	}
+	for(rit; rit != str.rend(); rit++)
+	{
+		if (ws.find(*rit) != std::string::npos)
+		{
+			str = str.substr(0, str.rend() - rit);
+			break;
+		}
+	}
+}
+
+bool	BitcoinExchange::validateDate(std::string &date)
+{
+	trim(date);
+	
+}
+
+bool	BitcoinExchange::validateValue(std::string &str)
+{
+	
+}
 
 void	BitcoinExchange::parseLine(std::string line, char delim)
 {
@@ -38,8 +77,11 @@ void	BitcoinExchange::parseLine(std::string line, char delim)
 		std::cout << "Error: invalid input => " << line;
 		return;
 	}
-	validateDate();
-	validateValue();
+
+	std::string	date = line.substr(0, pos);
+	std::string	value = line.substr(pos + 1);
+	validateDate(date);
+	validateValue(value);
 }
 
 void	BitcoinExchange::loadRates()
@@ -56,6 +98,6 @@ void	BitcoinExchange::loadRates()
 	{
 		if (line.empty())
 			continue;
-		parseLine(line);
+		parseLine(line, ',');
 	}
 }
