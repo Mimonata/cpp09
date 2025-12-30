@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 21:09:38 by spitul            #+#    #+#             */
-/*   Updated: 2025/12/30 23:39:39 by spitul           ###   ########.fr       */
+/*   Updated: 2025/12/30 23:45:33 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ bool	BitcoinExchange::validateValue(std::string &str, bool write_err, bool db)
 	char	*end;
 	
 	trimWhitespace(str);
-	float	val = std::strtod(str.c_str(), &end);
+	double	val = std::strtod(str.c_str(), &end);
 	if (val < 0 || *end != '\0')
 	{
 		if (write_err)
@@ -146,7 +146,7 @@ void	BitcoinExchange::loadRates()
 
 double BitcoinExchange::getRate(std::string date)
 {
-	std::map<std::string, float>::iterator	it = rates.lower_bound(date);
+	std::map<std::string, double>::iterator	it = rates.lower_bound(date);
 	
 	if(it != rates.end() && it->first == date)
 		return it->second;
@@ -161,8 +161,8 @@ double BitcoinExchange::getRate(std::string date)
 void	BitcoinExchange::processFile(std::ifstream &file)
 {
 	std::string	line;
-	float	amount;
-	float	rate;
+	double	amount;
+	double	rate;
 	
 	while (std::getline(file, line))
 	{

@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:05:59 by spitul            #+#    #+#             */
-/*   Updated: 2025/12/30 21:45:51 by spitul           ###   ########.fr       */
+/*   Updated: 2025/12/30 23:45:40 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 class BitcoinExchange
 {
 	private:
-		std::map<std::string, float>	rates;
+		std::map<std::string, double>	rates;
 		
 		void	parseDBLine(std::string line, bool write_err);
 		bool	validateDate(std::string &str, bool write_err);
