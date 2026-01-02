@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/31 09:22:37 by spitul            #+#    #+#             */
-/*   Updated: 2026/01/01 19:37:13 by spitul           ###   ########.fr       */
+/*   Updated: 2026/01/02 22:15:22 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ RPN::RPN(std::string input)
 	std::string			token;
 	int					num;
 	
+	if (input.empty())
+		throw emptyStackException("No input");
 	while (std::getline(stream, token, ' '))
 	{
 		if (token.empty())
