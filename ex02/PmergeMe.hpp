@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:48:00 by spitul            #+#    #+#             */
-/*   Updated: 2026/01/02 22:11:52 by spitul           ###   ########.fr       */
+/*   Updated: 2026/01/02 23:01:43 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ class PmergeMe
 		
 		std::vector<int>	v;
 		std::deque<int>		d;
+		int					size;
 
 	public:
 		PmergeMe();
