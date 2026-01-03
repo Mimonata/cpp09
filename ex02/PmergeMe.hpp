@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:48:00 by spitul            #+#    #+#             */
-/*   Updated: 2026/01/02 23:01:43 by spitul           ###   ########.fr       */
+/*   Updated: 2026/01/03 23:26:26 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <vector>
 #include <deque>
 #include <string>
+#include <iostream>
 
 class PmergeMe
 {
@@ -29,7 +30,7 @@ class PmergeMe
 		
 		std::vector<int>	v;
 		std::deque<int>		d;
-		int					size;
+		int					len;
 
 	public:
 		PmergeMe();
@@ -39,8 +40,15 @@ class PmergeMe
 		~PmergeMe();
 
 		void	PmergeMeSort();
-		void	sortVector();
+		void	sortVector(std::vector<int> &v, int size);
 		void	sortDeque();
+		void	insertPend(std::vector<int> &main, std::vector<pair> &pairs, int last);
+
+		std::vector<int>	getVector();
+		std::deque<int>		getDeque();
+		int					getSize();
 };
+
+std::ostream	&operator<<(std::ostream &os, PmergeMe &obj);
 
 #endif

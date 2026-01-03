@@ -6,12 +6,13 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:47:50 by spitul            #+#    #+#             */
-/*   Updated: 2026/01/02 23:47:03 by spitul           ###   ########.fr       */
+/*   Updated: 2026/01/03 23:27:50 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 #include <sstream>
+#include <stdexcept>
 
 PmergeMe::PmergeMe()
 {}
@@ -62,30 +63,92 @@ void	PmergeMe::PmergeMeSort()
 	pair	p;
 	int		last = -1;
 	
-	if (size % 2 == 1)
+	if (len % 2 == 1)
 		last = v[size - 1];
 	pairs.reserve(size / 2 + 1);
 	for (int i = 0; i < size; i += 2)
 	{
 		if (i + 1 < size)
 		{
-			if (v[i] > v[i + 1])
-			{
-				p.large = v[i];
-				p.small = v[i + 1];
-			}
-			else
-			{
-				p.large = v[i + 1];
-				p.small = v[i];
-			}
+			p.large = std::max(v[i], v[i + 1]);
+			p.small = std::min(v[i], v[i + 1]);
 			pairs.push_back(p);
 		}
 	}
+	std::cout << "Before: " << this;
+	sortVector();
+	sortDeque();
+	std::cout << "After: " << this;
 }
 
-void	PmergeMe::sortVector()
-{}
+void	PmergeMe::sortVector(std::vector<int> &v, int size)
+{
+	std::vector<pair>	pairs;
+	std::vector<int>	main;
+	std::vector<int>	pend;
+	pair	p;
+	int		last = -1;
+	
+	if (size <= 1)
+		return;
+	if (size % 2 == 1)
+		last = v[size - 1];
+	for (int i = 0; i < size; i += 2)
+	{
+		if (i + 1 < size)
+		{
+			p.large = std::max(v[i], v[i + 1]);
+			p.small = std::min(v[i], v[i + 1]);
+			pairs.push_back(p);
+		}
+	}
+	for (int i = 0; i < size / 2; i++)
+	{
+		main.push_back(pairs[i].large);
+		pend.push_back(pairs[i].small);
+	}
+	sortVector(main, size / 2);
+	insertPend(main, pairs, last);
+}
 
 void	PmergeMe::sortDeque()
 {}
+
+void	PmergeMe::insertPend(std::vector<int> &main, std::vector<pair> &pairs, int last)
+{
+	for (int i = 0; i < pairs.size(); i++)
+	{
+		
+	}
+}
+
+std::ostream	&operator<<(std::ostream &os, PmergeMe &obj)
+{
+	std::vector<int>	v_copy;
+	int					size_copy;
+
+	v_copy = obj.getVector();
+	size_copy = obj.getSize();
+	for (int i = 0; i < size_copy; i++)
+	{
+		os << v_copy[i];
+		if (i < size_copy - 1)
+			os << ', ';
+	}
+	os << '\n';
+	return os;
+}
+
+std::vector<int>	PmergeMe::getVector()
+{
+	return (v);
+}
+std::deque<int>	PmergeMe::getDeque()
+{
+	return (d);
+}
+
+int	PmergeMe::getSize()
+{
+	return size;
+}
