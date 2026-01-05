@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:47:50 by spitul            #+#    #+#             */
-/*   Updated: 2026/01/05 21:36:23 by spitul           ###   ########.fr       */
+/*   Updated: 2026/01/05 21:49:32 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,18 @@ PmergeMe& PmergeMe::operator=(const PmergeMe &rh)
 PmergeMe::~PmergeMe()
 {}
 
-void	jacobsChain(std::vector<int> &jacob, int len)
+void	jacobsChain(std::vector<int> &jacob, int max)
 {
 	int	size;
 	
-	if (len <= 0)
+	jacob.push_back(1);
+	if (max <= 1)
 		return;
 	jacob.push_back(1);
-	if (len == 1)
-		return;
-	jacob.push_back(1);
-	size = jacob.size();
-	while (size < len)
+	while (jacob.back() < max)
 	{
-		jacob.push_back(jacob[size - 1] + 2 * jacob[size - 2]);
 		size = jacob.size();
+		jacob.push_back(jacob[size - 1] + 2 * jacob[size - 2]);
 	}
 }
 
