@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:47:50 by spitul            #+#    #+#             */
-/*   Updated: 2026/01/05 08:44:28 by spitul           ###   ########.fr       */
+/*   Updated: 2026/01/05 21:36:23 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,31 @@ PmergeMe& PmergeMe::operator=(const PmergeMe &rh)
 PmergeMe::~PmergeMe()
 {}
 
+void	jacobsChain(std::vector<int> &jacob, int len)
+{
+	int	size;
+	
+	if (len <= 0)
+		return;
+	jacob.push_back(1);
+	if (len == 1)
+		return;
+	jacob.push_back(1);
+	size = jacob.size();
+	while (size < len)
+	{
+		jacob.push_back(jacob[size - 1] + 2 * jacob[size - 2]);
+		size = jacob.size();
+	}
+}
+
 void	PmergeMe::PmergeMeSort()
 {
 	
-	std::cout << "Before: " << this;
+	std::cout << "Before: " << *this;
 	sortVector(v, len);
 	sortDeque();
-	std::cout << "After: " << this;
+	std::cout << "After: " << *this;
 }
 
 void	PmergeMe::sortVector(std::vector<int> &v, int size)
@@ -89,51 +107,51 @@ void	PmergeMe::sortVector(std::vector<int> &v, int size)
 		}
 	}
 	for (int i = 0; i < size / 2; i++)
-	{
 		main.push_back(pairs[i].large);
-		pend.push_back(pairs[i].small);
-	}
+		
 	sortVector(main, size / 2);
 	insertPend(main, pairs, last);
+	v.clear();
+	for (size_t i = 0; i < main.size(); i++)
+		v.push_back(main[i]);
 }
 
 void	PmergeMe::sortDeque()
 {}
 
-int	getJacobsNb(int n)
-{
-	if (n == 0)
-		return 1;
-	else if (n == 1)
-		return 1;
-	else
-		return(getJacobsNb(n - 1) + 2 * getJacobsNb(n - 2));
-}
-
-void	jacobsChain(std::vector<int> &jacob, int len)
-{
-	for (int i = 2; i < len + 2; i++)
-		jacob.push_back(getJacobsNb(i));
-}
-
 void	PmergeMe::insertPend(std::vector<int> &main, std::vector<pair> &pairs, int last)
 {
 	std::vector<int>	jacob;
-	int	j_count = 0;
+	std::vector<int>::iterator	pos;
+	std::vector<int>::iterator	vit;
 	
 	std::vector<pair>::iterator	it = find_if(pairs.begin(), pairs.end(), findLarge(main[0]));
-	main.insert(main.begin(),(*it).small);
+	if (it != pairs.end())
+		main.insert(main.begin(),(*it).small);
 	pairs.erase(it);
 	jacobsChain(jacob, pairs.size());
-	for (int j = 0; j < jacob.size(); j++)
+	
+	for (size_t j = 0; j < jacob.size(); j++)
 	{
+		if (j == 0)
+		{
+			vit = find(main.begin(), main.end(), pairs[j].large);
+			pos = std::lower_bound(main.begin(), vit, pairs[j].small);
+			main.insert(pos, pairs[j].small);
+			continue;
+		}
 		for (int k = jacob[j]; k > jacob[j - 1]; k --)
 		{
-			std::vector<int>::iterator	vit = find(main.begin(), main.end(), pairs[k].large); //dis wrong - i need to look at the indices in the pend - though i could also explore this to see how it works
-			std::vector<int>::iterator	pos = std::lower_bound(main.begin(), vit, pairs[k].small);
-			main.insert(pos, pairs[k].small);
+			vit = find(main.begin(), main.end(), pairs[k - 1].large); //dis wrong - i need to look at the indices in the pend - though i could also explore this to see how it works
+			pos = std::lower_bound(main.begin(), vit, pairs[k - 1].small);
+			main.insert(pos, pairs[k - 1].small);
 		}
-	}		
+	}	
+	if (last > -1)
+	{
+		pos = std::lower_bound(main.begin(), main.end(), last);
+		main.insert(pos, last);
+	}
 }
 
 std::ostream	&operator<<(std::ostream &os, PmergeMe &obj)
@@ -147,7 +165,7 @@ std::ostream	&operator<<(std::ostream &os, PmergeMe &obj)
 	{
 		os << v_copy[i];
 		if (i < size_copy - 1)
-			os << ', ';
+			os << ", ";
 	}
 	os << '\n';
 	return os;
