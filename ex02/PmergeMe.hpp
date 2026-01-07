@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:48:00 by spitul            #+#    #+#             */
-/*   Updated: 2026/01/07 07:38:37 by spitul           ###   ########.fr       */
+/*   Updated: 2026/01/07 21:37:42 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ class PmergeMe
 
 		void	PmergeMeSort();
 		std::vector<int>	sortVector(std::vector<int> &v, int size);
-		void	sortDeque();
+		std::deque<int>		sortDeque(std::deque<int> &d, int size);
 		void	insertPend(std::vector<int> &main, std::vector<pair> &pairs, int last);
-
+		void	insertDeque(std::deque<int> &main, std::deque<pair> &pairs, int last);
+		
 		std::vector<int>	getVector();
 		std::deque<int>		getDeque();
 		int					getSize();

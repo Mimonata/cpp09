@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:47:50 by spitul            #+#    #+#             */
-/*   Updated: 2026/01/07 19:32:49 by spitul           ###   ########.fr       */
+/*   Updated: 2026/01/07 21:39:00 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <iterator>
+#include <ctime>
 
 PmergeMe::PmergeMe()
 {}
@@ -79,7 +80,7 @@ void	PmergeMe::PmergeMeSort()
 	
 	std::cout << "Before: " << *this;
 	v = sortVector(v, len);
-	sortDeque();
+	d = sortDeque(d, len);
 	std::cout << "After: " << *this;
 }
 
@@ -114,8 +115,36 @@ std::vector<int>	PmergeMe::sortVector(std::vector<int> &v, int size)
 	return main;
 }
 
-void	PmergeMe::sortDeque()
-{}
+std::deque<int>	PmergeMe::sortDeque(std::deque<int> &d, int size)
+{
+	std::deque<pair>	pairs;
+	std::deque<int>	main;
+	pair	p;
+	int		last = -1;
+	
+	if (size <= 1)
+		return d;
+	if (size % 2 == 1)
+		last = v[size - 1];
+	for (int i = 0; i < size; i += 2)
+	{
+		if (i + 1 < size)
+		{
+			p.large = std::max(v[i], v[i + 1]);
+			p.small = std::min(v[i], v[i + 1]);
+			pairs.push_back(p);
+		}
+	}
+	for (int i = 0; i < size / 2; i++)
+	{
+		main.push_back(pairs[i].large);
+	}
+		
+	main = sortDeque(main, size / 2);
+	insertDeque(main, pairs, last);
+	
+	return main;
+}
 
 void	PmergeMe::insertPend(std::vector<int> &main, std::vector<pair> &pairs, int last)
 {
@@ -125,6 +154,51 @@ void	PmergeMe::insertPend(std::vector<int> &main, std::vector<pair> &pairs, int 
 	int	idx;
 	
 	std::vector<pair>::iterator	it = find_if(pairs.begin(), pairs.end(), findLarge(main[0]));
+	if (it != pairs.end())
+	{
+		main.insert(main.begin(),(*it).small);
+		idx = std::distance(pairs.begin(), it);
+	}
+	jacobsChain(jacob, pairs.size());
+		
+	for (size_t j = 0; j < jacob.size(); j++)
+	{
+		if (j == 0)
+		{
+			if (idx != 0)
+			{
+				vit = find(main.begin(), main.end(), pairs[j].large);
+				pos = std::lower_bound(main.begin(), vit, pairs[j].small);
+				main.insert(pos, pairs[j].small);
+			}
+			continue;
+		}
+		int	lim = jacob[j];
+		if (lim > (int)pairs.size())
+			lim = pairs.size();
+		for (int k = lim; k > jacob[j - 1]; k --)
+		{
+			vit = find(main.begin(), main.end(), pairs[k - 1].large); 
+			pos = std::lower_bound(main.begin(), vit, pairs[k - 1].small);
+			if (idx != k - 1)
+				main.insert(pos, pairs[k - 1].small);
+		}
+	}	
+	if (last > -1)
+	{
+		pos = std::lower_bound(main.begin(), main.end(), last);
+		main.insert(pos, last);
+	}
+}
+
+void	PmergeMe::insertDeque(std::deque<int> &main, std::deque<pair> &pairs, int last)
+{
+	std::vector<int>	jacob;
+	std::deque<int>::iterator	pos;
+	std::deque<int>::iterator	vit;
+	int	idx;
+	
+	std::deque<pair>::iterator	it = find_if(pairs.begin(), pairs.end(), findLarge(main[0]));
 	if (it != pairs.end())
 	{
 		main.insert(main.begin(),(*it).small);

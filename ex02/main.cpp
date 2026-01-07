@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:47:05 by spitul            #+#    #+#             */
-/*   Updated: 2026/01/05 19:40:49 by spitul           ###   ########.fr       */
+/*   Updated: 2026/01/07 21:26:14 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,14 @@ int	main(int ac, char **av)
 		return 1;
 	}
 	PmergeMe	obj(ac, av);
-	std::cout << obj;
-	obj.PmergeMeSort();
+	try
+	{
+		obj.PmergeMeSort();
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what();
+	}
+	
 	return 0;
 }
