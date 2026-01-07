@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:47:50 by spitul            #+#    #+#             */
-/*   Updated: 2026/01/07 07:59:54 by spitul           ###   ########.fr       */
+/*   Updated: 2026/01/07 19:32:49 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ std::vector<int>	PmergeMe::sortVector(std::vector<int> &v, int size)
 {
 	std::vector<pair>	pairs;
 	std::vector<int>	main;
-	std::vector<int>	pend;
 	pair	p;
 	int		last = -1;
 	
@@ -106,7 +105,6 @@ std::vector<int>	PmergeMe::sortVector(std::vector<int> &v, int size)
 	}
 	for (int i = 0; i < size / 2; i++)
 	{
-		pend.push_back(pairs[i].small);
 		main.push_back(pairs[i].large);
 	}
 		
