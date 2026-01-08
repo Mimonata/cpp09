@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 21:12:12 by spitul            #+#    #+#             */
-/*   Updated: 2025/12/30 19:16:24 by spitul           ###   ########.fr       */
+/*   Updated: 2026/01/08 16:14:05 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char **argv)
 	
 	if (argc != 2)
 	{
-		std::cout << DOR << "Expected input: GYL ./btc <infile>\n" << RST;
+		std::cout << DOR << "Expected input: ./btc <infile>\n" << RST;
 		return 1;
 	}
 	file.open(argv[1]);

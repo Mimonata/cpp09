@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
+/*   By: spitul <spitul@student.42berlin.de >       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 21:09:38 by spitul            #+#    #+#             */
-/*   Updated: 2025/12/30 23:45:33 by spitul           ###   ########.fr       */
+/*   Updated: 2026/01/08 16:12:04 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,4 +185,3 @@ void	BitcoinExchange::processFile(std::ifstream &file)
 			std::cout << date << " => " << amount << " = " << rate * amount << std::endl;
 	}
 }
-//2011-01-09 => 1 = 0.32
