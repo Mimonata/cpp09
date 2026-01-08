@@ -8,10 +8,10 @@
 		"name": "(gdb) Attach",
 		"type": "cppdbg",
 		"request": "launch",
-		"program": "${workspaceFolder}/ex01/RPN",
-		"args":["7 7 * 7 -"],
+		"program": "${workspaceFolder}/ex02/PmergeMe",
+		"args":["3 5 9 7 4 1"],
 		"stopAtEntry": false,
-		"cwd": "${workspaceFolder}/ex01",
+		"cwd": "${workspaceFolder}/ex02",
 		"MIMode": "gdb",
 		"setupCommands": [
 			{
