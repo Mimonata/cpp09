@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:47:05 by spitul            #+#    #+#             */
-/*   Updated: 2026/01/07 21:26:14 by spitul           ###   ########.fr       */
+/*   Updated: 2026/01/07 21:43:16 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ int	main(int ac, char **av)
 {
 	if (ac == 1)
 	{
-		std::cout << "Numerical arguments expected\n";
+		std::cout << "Wrong input: Numerical arguments expected\n";
 		return 1;
 	}
-	PmergeMe	obj(ac, av);
+	
 	try
 	{
+		PmergeMe	obj(ac, av);
 		obj.PmergeMeSort();
 	}
 	catch(const std::exception& e)

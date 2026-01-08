@@ -6,7 +6,7 @@
 /*   By: spitul <spitul@student.42berlin.de>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 19:47:50 by spitul            #+#    #+#             */
-/*   Updated: 2026/01/07 21:39:00 by spitul           ###   ########.fr       */
+/*   Updated: 2026/01/08 09:12:04 by spitul           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <iterator>
 #include <ctime>
+#include <iomanip>
 
 PmergeMe::PmergeMe()
 {}
@@ -35,10 +36,10 @@ PmergeMe::PmergeMe(int argc, char **argv)
 				d.push_back(num);
 			}
 			else
-				throw std::runtime_error("Error: negative number enocuntered");
+				throw std::runtime_error("Error: negative number enocuntered\n");
 		}
 		if (!input.eof())
-				throw std::runtime_error("Invalid input");
+				throw std::runtime_error("Invalid input\n");
 	}
 	len = v.size();
 }
@@ -75,13 +76,45 @@ void	jacobsChain(std::vector<int> &jacob, int max)
 	}
 }
 
+template <typename container>
+bool	isSorted(const container &c)
+{
+	if (c.size() <= 1)
+		return true;
+	
+	typename container::const_iterator	it = c.begin();
+	typename container::const_iterator	next = it;
+	++next;
+
+	while (next != c.end())
+	{
+		if (*it > *next)
+			return false;
+		++it;
+		++next;
+	}
+	return true;
+}
+
 void	PmergeMe::PmergeMeSort()
 {
+	std::clock_t	start;
+	std::clock_t	end;
+	double	dur_v, dur_d;
 	
 	std::cout << "Before: " << *this;
+	start = std::clock();
 	v = sortVector(v, len);
+	end = std::clock();
+	dur_v = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000;
+	start = std::clock();
 	d = sortDeque(d, len);
+	end = std::clock();
+	dur_d = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000000;
 	std::cout << "After: " << *this;
+	std::cout << std::fixed << std::setprecision(5) << "Time to process a range of " << len << " elements with std::vector : " << dur_v << " us\n";
+	std::cout << "Time to process a range of " << len << " elements with std::deque : " << dur_d << " us\n";
+	//std::cout << isSorted(d);
 }
 
 std::vector<int>	PmergeMe::sortVector(std::vector<int> &v, int size)
@@ -167,7 +200,7 @@ void	PmergeMe::insertPend(std::vector<int> &main, std::vector<pair> &pairs, int 
 		{
 			if (idx != 0)
 			{
-				vit = find(main.begin(), main.end(), pairs[j].large);
+				vit = std::lower_bound(main.begin(), main.end(), pairs[j].large);
 				pos = std::lower_bound(main.begin(), vit, pairs[j].small);
 				main.insert(pos, pairs[j].small);
 			}
@@ -178,7 +211,7 @@ void	PmergeMe::insertPend(std::vector<int> &main, std::vector<pair> &pairs, int 
 			lim = pairs.size();
 		for (int k = lim; k > jacob[j - 1]; k --)
 		{
-			vit = find(main.begin(), main.end(), pairs[k - 1].large); 
+			vit = std::lower_bound(main.begin(), main.end(), pairs[k - 1].large); 
 			pos = std::lower_bound(main.begin(), vit, pairs[k - 1].small);
 			if (idx != k - 1)
 				main.insert(pos, pairs[k - 1].small);
@@ -212,7 +245,7 @@ void	PmergeMe::insertDeque(std::deque<int> &main, std::deque<pair> &pairs, int l
 		{
 			if (idx != 0)
 			{
-				vit = find(main.begin(), main.end(), pairs[j].large);
+				vit = std::lower_bound(main.begin(), main.end(), pairs[j].large);
 				pos = std::lower_bound(main.begin(), vit, pairs[j].small);
 				main.insert(pos, pairs[j].small);
 			}
@@ -223,7 +256,7 @@ void	PmergeMe::insertDeque(std::deque<int> &main, std::deque<pair> &pairs, int l
 			lim = pairs.size();
 		for (int k = lim; k > jacob[j - 1]; k --)
 		{
-			vit = find(main.begin(), main.end(), pairs[k - 1].large); 
+			vit = std::lower_bound(main.begin(), main.end(), pairs[k - 1].large); 
 			pos = std::lower_bound(main.begin(), vit, pairs[k - 1].small);
 			if (idx != k - 1)
 				main.insert(pos, pairs[k - 1].small);
@@ -247,7 +280,7 @@ std::ostream	&operator<<(std::ostream &os, PmergeMe &obj)
 	{
 		os << v_copy[i];
 		if (i < size_copy - 1)
-			os << ", ";
+			os << " ";
 	}
 	os << '\n';
 	return os;
